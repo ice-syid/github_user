@@ -3,10 +3,12 @@ package com.example.github_user.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.github_user.R
 import com.example.github_user.databinding.ItemUserBinding
 import com.example.github_user.model.User
+import com.example.github_user.ui.HomeFragmentDirections
 
 class ListUserAdapter(private val listUser: ArrayList<User>) :
     RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
@@ -18,6 +20,10 @@ class ListUserAdapter(private val listUser: ArrayList<User>) :
             binding.imgPhoto.setImageResource(user.avatar)
             binding.tvName.setText(user.name)
             binding.tvUsername.setText(user.username)
+            binding.btnViewProfile.setOnClickListener{
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(user)
+                itemView.findNavController().navigate(action)
+            }
         }
     }
 

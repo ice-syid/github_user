@@ -106,4 +106,7 @@
     </string-array>
 
     <string name="view_profile">View Profile</string>
+    <string name="follower">Follower</string>
+    <string name="following">Following</string>
+    <string name="repository">Repository</string>
 </resources>
