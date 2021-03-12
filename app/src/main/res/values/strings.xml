@@ -109,4 +109,13 @@
     <string name="follower">Follower</string>
     <string name="following">Following</string>
     <string name="repository">Repository</string>
+    <string name="kotlin">Kotlin</string>
+    <string name="_0">0</string>
+    <string name="pinned">Pinned</string>
+    <string name="repo">github_user</string>
+    <string name="starred">Starred</string>
+    <string name="organizations">Organizations</string>
+    <string name="repositories">Repositories</string>
+    <string name="share">Share</string>
+    <string name="open_in_browser">Open In Browser</string>
 </resources>

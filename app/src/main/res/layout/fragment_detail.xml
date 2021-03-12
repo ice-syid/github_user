@@ -132,4 +132,214 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_detail_company"
         tools:text="Silicon Valley" />
 
+    <ImageView
+        android:id="@+id/ic_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_pin"
+        app:layout_constraintStart_toStartOf="@+id/tv_detail_location"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_location" />
+
+    <TextView
+        android:id="@+id/tv_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/pinned"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_pin"
+        app:layout_constraintStart_toEndOf="@+id/ic_pin"
+        app:layout_constraintTop_toTopOf="@+id/ic_pin" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_repo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_repo"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ic_pin">
+
+        <TextView
+            android:id="@+id/tv_repo_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/repo"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="@+id/tv_repo_img"
+            app:layout_constraintTop_toBottomOf="@+id/tv_repo_img" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/tv_repo_img"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_repo_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_repo_img"
+            app:layout_constraintStart_toEndOf="@+id/tv_repo_img"
+            app:layout_constraintTop_toTopOf="@+id/tv_repo_img"
+            tools:text="ice-syid" />
+
+        <ImageView
+            android:id="@+id/ic_start"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="48dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_star"
+            app:layout_constraintStart_toStartOf="@+id/tv_repo_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_repo_name" />
+
+        <ImageView
+            android:id="@+id/ic_dot"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="24dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_dot"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_start_value"
+            app:layout_constraintStart_toEndOf="@+id/tv_start_value"
+            app:layout_constraintTop_toTopOf="@+id/tv_start_value" />
+
+        <TextView
+            android:id="@+id/tv_start_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/_0"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_start"
+            app:layout_constraintStart_toEndOf="@+id/ic_start"
+            app:layout_constraintTop_toTopOf="@+id/ic_start" />
+
+        <TextView
+            android:id="@+id/tv_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/kotlin"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_dot"
+            app:layout_constraintStart_toEndOf="@+id/ic_dot"
+            app:layout_constraintTop_toTopOf="@+id/ic_dot" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_repo">
+
+        <ImageView
+            android:id="@+id/ic_repo_black"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_repo_black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ic_organization_black"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_organization_black"
+            app:layout_constraintStart_toStartOf="@+id/ic_repo_black"
+            app:layout_constraintTop_toBottomOf="@+id/ic_repo_black" />
+
+        <ImageView
+            android:id="@+id/ic_star_black"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_star_black"
+            app:layout_constraintStart_toStartOf="@+id/ic_organization_black"
+            app:layout_constraintTop_toBottomOf="@+id/ic_organization_black" />
+
+        <TextView
+            android:id="@+id/tv_repositories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/repositories"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_repo_black"
+            app:layout_constraintStart_toEndOf="@+id/ic_repo_black"
+            app:layout_constraintTop_toTopOf="@+id/ic_repo_black" />
+
+        <TextView
+            android:id="@+id/tv_organizations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/organizations"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_organization_black"
+            app:layout_constraintStart_toStartOf="@+id/tv_repositories"
+            app:layout_constraintTop_toTopOf="@+id/ic_organization_black" />
+
+        <TextView
+            android:id="@+id/tv_starred"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/starred"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_star_black"
+            app:layout_constraintStart_toStartOf="@+id/tv_organizations"
+            app:layout_constraintTop_toTopOf="@+id/ic_star_black" />
+
+        <TextView
+            android:id="@+id/tv_repositories_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_repositories"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_repositories"
+            tools:text="@string/_0" />
+
+        <TextView
+            android:id="@+id/tv_organizations_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_0"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_organizations"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_organizations" />
+
+        <TextView
+            android:id="@+id/tv_starred_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_0"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_starred"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_starred" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
