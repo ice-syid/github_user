@@ -1,6 +1,6 @@
 <resources>
-    <!-- Other string resources-->
-    <string name="app_name">Github Users</string>
+    <string name="app_name">GitHub User</string>
+
     <string-array name="username">
         <item>JakeWharton</item>
         <item>amitshekhariitbhu</item>
@@ -105,6 +105,5 @@
         <item>@drawable/user10</item>
     </string-array>
 
+    <string name="view_profile">View Profile</string>
 </resources>
-
-
