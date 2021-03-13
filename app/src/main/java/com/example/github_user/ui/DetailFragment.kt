@@ -39,17 +39,17 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.imgDetailPhoto.setImageResource(user.avatar)
-        binding.tvDetailName.setText(user.name)
-        binding.tvDetailCompany.setText(user.company)
-        binding.tvDetailLocation.setText(user.location)
-        binding.tvFollowerValue.setText(user.follower.toString())
-        binding.tvFollowingValue.setText(user.following.toString())
-        binding.tvRepositoryValue.setText(user.repository.toString())
+        binding.tvDetailName.text = user.name
+        binding.tvDetailCompany.text = user.company
+        binding.tvDetailLocation.text = user.location
+        binding.tvFollowerValue.text = user.follower.toString()
+        binding.tvFollowingValue.text = user.following.toString()
+        binding.tvRepositoryValue.text = user.repository.toString()
 
         binding.tvRepoImg.setImageResource(user.avatar)
-        binding.tvRepoUsername.setText(user.username)
+        binding.tvRepoUsername.text = user.username
 
-        binding.tvRepositoriesValue.setText(user.repository.toString())
+        binding.tvRepositoriesValue.text = user.repository.toString()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

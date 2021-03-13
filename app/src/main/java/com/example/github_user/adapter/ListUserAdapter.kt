@@ -18,8 +18,8 @@ class ListUserAdapter(private val listUser: ArrayList<User>) :
 
         fun bind(user: User) {
             binding.imgPhoto.setImageResource(user.avatar)
-            binding.tvName.setText(user.name)
-            binding.tvUsername.setText(user.username)
+            binding.tvName.text = user.name
+            binding.tvUsername.text = user.username
             binding.btnViewProfile.setOnClickListener{
                 val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(user)
                 itemView.findNavController().navigate(action)
