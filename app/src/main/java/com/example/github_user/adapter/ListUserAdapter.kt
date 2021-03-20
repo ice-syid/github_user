@@ -22,12 +22,12 @@ class ListUserAdapter(var listUser: ArrayList<User>) :
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemUserBinding.bind(itemView)
-
         fun bind(user: User) {
             Glide.with(binding.root).load(user.avatar).into(binding.imgPhoto)
             binding.tvUsername.text = user.username
             binding.btnViewProfile.setOnClickListener {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(user)
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(user)
                 itemView.findNavController().navigate(action)
             }
             itemView.setOnClickListener { onItemClickCallback?.onItemClicked(user) }
