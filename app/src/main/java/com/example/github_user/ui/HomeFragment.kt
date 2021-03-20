@@ -1,10 +1,11 @@
 package com.example.github_user.ui
 
-import android.content.res.TypedArray
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,18 +13,13 @@ import com.example.github_user.R
 import com.example.github_user.adapter.ListUserAdapter
 import com.example.github_user.databinding.FragmentHomeBinding
 import com.example.github_user.model.User
+import com.loopj.android.http.AsyncHttpClient
+import com.loopj.android.http.AsyncHttpResponseHandler
+import cz.msebera.android.httpclient.Header
+import org.json.JSONArray
 
 class HomeFragment : Fragment() {
     private lateinit var listUserAdapter: ListUserAdapter
-
-    private lateinit var dataUsername: Array<String>
-    private lateinit var dataName: Array<String>
-    private lateinit var dataLocation: Array<String>
-    private lateinit var dataRepository: Array<String>
-    private lateinit var dataCompany: Array<String>
-    private lateinit var dataFollower: Array<String>
-    private lateinit var dataFollowing: Array<String>
-    private lateinit var dataAvatar: TypedArray
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -41,41 +37,89 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        getDataUser()
+        showRecyclerList()
+        setupSearchListener()
+    }
+
+    private fun showRecyclerList() {
         recyclerView = binding.rvGithub
         recyclerView.setHasFixedSize(true)
 
-        prepare()
-        addItem()
-
-        recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         listUserAdapter = ListUserAdapter(list)
+        recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.adapter = listUserAdapter
+
+        listUserAdapter.setOnItemClickCallback(object : ListUserAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: User) {
+                showSelectedUser(data)
+            }
+        })
     }
 
-    private fun prepare() {
-        dataUsername = resources.getStringArray(R.array.username)
-        dataName = resources.getStringArray(R.array.name)
-        dataLocation = resources.getStringArray(R.array.location)
-        dataRepository = resources.getStringArray(R.array.repository)
-        dataCompany = resources.getStringArray(R.array.company)
-        dataFollower = resources.getStringArray(R.array.followers)
-        dataFollowing = resources.getStringArray(R.array.following)
-        dataAvatar = resources.obtainTypedArray(R.array.avatar)
+    private fun showSelectedUser(user: User) {
+        Toast.makeText(context, user.username, Toast.LENGTH_SHORT).show()
     }
 
-    private fun addItem() {
-        for (position in dataName.indices) {
-            val user = User(
-                dataUsername[position],
-                dataName[position],
-                dataLocation[position],
-                dataRepository[position].toInt(),
-                dataCompany[position],
-                dataFollower[position].toInt(),
-                dataFollowing[position].toInt(),
-                dataAvatar.getResourceId(position, -1),
-            )
-            list.add(user)
-        }
+    private fun setupSearchListener() {
+        val searchView = binding.searchView
+
+        searchView.queryHint = resources.getString(R.string.search_hint)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return true
+            }
+        })
+    }
+
+    private fun getDataUser() {
+        binding.progressBar.visibility = View.VISIBLE
+        val url = "https://api.github.com/users"
+        val client = AsyncHttpClient()
+        client.addHeader("Authorization", "token 7a2a9233a93f4b2d10ac71589c380c3068505e71")
+        client.addHeader("User-Agent", "request")
+        client.get(url, object : AsyncHttpResponseHandler() {
+            override fun onSuccess(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                responseBody: ByteArray?
+            ) {
+                binding.progressBar.visibility = View.INVISIBLE
+                val result = String(responseBody!!)
+                try {
+                    val jsonArray = JSONArray(result)
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(i)
+                        val username = jsonObject.getString("login")
+                        val avatar = jsonObject.getString("avatar_url")
+                        list.add(User(username, avatar))
+                    }
+                    listUserAdapter.notifyDataSetChanged()
+                } catch (e: Exception) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onFailure(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                responseBody: ByteArray?,
+                error: Throwable?
+            ) {
+                binding.progressBar.visibility = View.INVISIBLE
+                val errorMessage = when (statusCode) {
+                    401 -> "$statusCode : Bad Request"
+                    403 -> "$statusCode : Forbidden"
+                    404 -> "$statusCode : Not Found"
+                    else -> "$statusCode : ${error?.message}"
+                }
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

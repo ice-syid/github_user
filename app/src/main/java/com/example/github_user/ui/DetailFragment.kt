@@ -32,24 +32,13 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.imgDetailPhoto.setImageResource(user.avatar)
-        binding.tvDetailName.text = user.name
-        binding.tvDetailCompany.text = user.company
-        binding.tvDetailLocation.text = user.location
-        binding.tvFollowerValue.text = user.follower.toString()
-        binding.tvFollowingValue.text = user.following.toString()
-        binding.tvRepositoryValue.text = user.repository.toString()
-
-        binding.tvRepoImg.setImageResource(user.avatar)
-        binding.tvRepoUsername.text = user.username
-
-        binding.tvRepositoriesValue.text = user.repository.toString()
+        
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

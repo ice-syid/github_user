@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/background_outline">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_photo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="86dp"
+        android:layout_height="86dp"
         android:layout_margin="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,28 +18,16 @@
         tools:src="@drawable/rasyid" />
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-medium"
         android:textColor="@android:color/black"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/img_photo"
         app:layout_constraintTop_toTopOf="@+id/img_photo"
-        tools:text="Abdurrasyid Muhasibi" />
-
-    <TextView
-        android:id="@+id/tv_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-light"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/tv_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
         tools:text="ice-syid" />
 
     <Button
@@ -48,6 +38,7 @@
         android:layout_marginBottom="8dp"
         android:importantForAccessibility="no"
         android:text="@string/view_profile"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/img_photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_username" />
