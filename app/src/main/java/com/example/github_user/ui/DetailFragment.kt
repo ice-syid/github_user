@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.github_user.BuildConfig
 import com.example.github_user.R
 import com.example.github_user.databinding.FragmentDetailBinding
 import com.example.github_user.model.User
@@ -98,9 +99,8 @@ class DetailFragment : Fragment() {
         binding.progressBarDetail.visibility = View.VISIBLE
         Log.d("test", "getDataUserDetail")
         val url = "https://api.github.com/users/$username"
-
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token 2e6b3601251367cc24e8990d4d217ca3d5de59e4")
+        client.addHeader("Authorization", "token ${BuildConfig.API_KEY}")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(

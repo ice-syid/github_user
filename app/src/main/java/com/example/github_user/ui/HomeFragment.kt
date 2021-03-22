@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.github_user.BuildConfig
 import com.example.github_user.R
 import com.example.github_user.adapter.ListUserAdapter
 import com.example.github_user.databinding.FragmentHomeBinding
@@ -83,7 +84,7 @@ class HomeFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
         val url = "https://api.github.com/users"
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token 2e6b3601251367cc24e8990d4d217ca3d5de59e4")
+        client.addHeader("Authorization", "token ${BuildConfig.API_KEY}")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
@@ -131,7 +132,7 @@ class HomeFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
         val url = "https://api.github.com/search/users?q=$username"
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token 2e6b3601251367cc24e8990d4d217ca3d5de59e4")
+        client.addHeader("Authorization", "token ${BuildConfig.API_KEY}")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
