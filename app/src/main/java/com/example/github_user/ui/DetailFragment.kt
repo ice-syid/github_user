@@ -6,15 +6,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.github_user.BuildConfig
 import com.example.github_user.R
+import com.example.github_user.adapter.SectionsPagerAdapter
 import com.example.github_user.databinding.FragmentDetailBinding
 import com.example.github_user.model.User
 import com.example.github_user.model.UserDetail
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
@@ -28,6 +33,14 @@ class DetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val args: DetailFragmentArgs by navArgs()
+
+    companion object {
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.follower,
+            R.string.following
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +61,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         getDataUserDetail(user.username)
+        setupTab()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -88,11 +102,18 @@ class DetailFragment : Fragment() {
         binding.tvFollowerValue.text = userDetail.follower.toString()
         binding.tvFollowingValue.text = userDetail.following.toString()
         binding.tvRepositoryValue.text = userDetail.repository.toString()
+    }
 
-        Glide.with(binding.root).load(userDetail.avatar).into(binding.tvRepoImg)
-        binding.tvRepoUsername.text = userDetail.username
+    private fun setupTab() {
+        val adapter = SectionsPagerAdapter(requireActivity() as AppCompatActivity)
+        val viewPager: ViewPager2 = binding.viewPager
+        viewPager.adapter = adapter
+        val tabs: TabLayout = binding.tabs
+        TabLayoutMediator(tabs, viewPager) { tab, position ->
+            tab.text = resources.getString(TAB_TITLES[position])
+        }.attach()
 
-        binding.tvRepositoriesValue.text = userDetail.repository.toString()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.elevation = 0f
     }
 
     private fun getDataUserDetail(username: String) {
