@@ -9,13 +9,13 @@ import com.example.github_user.R
 import com.example.github_user.databinding.ItemUserBinding
 import com.example.github_user.model.User
 
-class FollowingAdapter : RecyclerView.Adapter<FollowingAdapter.ListViewHolder>() {
-    private var listFollowing = ArrayList<User>()
+class FollowAdapter : RecyclerView.Adapter<FollowAdapter.ListViewHolder>() {
+    private var listFollow = ArrayList<User>()
     private lateinit var onItemClickCallback: ListUserAdapter.OnItemClickCallback
 
     fun setData(users: ArrayList<User>) {
-        listFollowing.clear()
-        listFollowing.addAll(users)
+        listFollow.clear()
+        listFollow.addAll(users)
         notifyDataSetChanged()
     }
 
@@ -24,11 +24,6 @@ class FollowingAdapter : RecyclerView.Adapter<FollowingAdapter.ListViewHolder>()
         fun bind(user: User) {
             Glide.with(binding.root).load(user.avatar).into(binding.imgPhoto)
             binding.tvUsername.text = user.username
-//            binding.btnViewProfile.setOnClickListener {
-//                val action =
-//                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(user)
-//                itemView.findNavController().navigate(action)
-//            }
             itemView.setOnClickListener { onItemClickCallback.onItemClicked(user) }
         }
     }
@@ -39,13 +34,13 @@ class FollowingAdapter : RecyclerView.Adapter<FollowingAdapter.ListViewHolder>()
         return ListViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return listFollowing.size
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+        val user = listFollow[position]
+        holder.bind(user)
     }
 
-    override fun onBindViewHolder(holder: FollowingAdapter.ListViewHolder, position: Int) {
-        val user = listFollowing[position]
-        holder.bind(user)
+    override fun getItemCount(): Int {
+        return listFollow.size
     }
 
     fun setOnItemClickCallback(onItemClickCallback: ListUserAdapter.OnItemClickCallback) {

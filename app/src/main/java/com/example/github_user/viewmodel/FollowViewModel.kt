@@ -11,13 +11,15 @@ import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import org.json.JSONArray
 
-class FollowersViewModel : ViewModel() {
-    private val listFollowers = MutableLiveData<ArrayList<User>>()
+class FollowViewModel : ViewModel() {
+    private val listFollow = MutableLiveData<ArrayList<User>>()
 
-    fun setUserFollowers(username: String) {
+    fun setUserFollow(username: String, option: Int) {
         val listData = ArrayList<User>()
-
-        val url = "https://api.github.com/users/$username/followers"
+        val url = when (option) {
+            0 -> "https://api.github.com/users/$username/followers"
+            else -> "https://api.github.com/users/$username/following"
+        }
         val client = AsyncHttpClient()
         client.addHeader("Authorization", "token ${BuildConfig.API_KEY}")
         client.addHeader("User-Agent", "request")
@@ -36,7 +38,7 @@ class FollowersViewModel : ViewModel() {
                         val avatar = item.getString("avatar_url")
                         listData.add(User(username, avatar))
                     }
-                    listFollowers.postValue(listData)
+                    listFollow.postValue(listData)
                 } catch (e: Exception) {
                     Log.e("onSuccess", e.message.toString())
                     e.printStackTrace()
@@ -60,5 +62,5 @@ class FollowersViewModel : ViewModel() {
         })
     }
 
-    fun getUserFollowers(): LiveData<ArrayList<User>> = listFollowers
+    fun getUserFollow(): LiveData<ArrayList<User>> = listFollow
 }

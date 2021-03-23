@@ -95,6 +95,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupSearchListener() {
+        showLoading(true)
         val searchView = binding.searchView
 
         searchView.queryHint = resources.getString(R.string.search_hint)

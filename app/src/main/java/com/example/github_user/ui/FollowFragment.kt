@@ -9,20 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.github_user.adapter.FollowersAdapter
-import com.example.github_user.adapter.FollowingAdapter
+import com.example.github_user.adapter.FollowAdapter
 import com.example.github_user.adapter.ListUserAdapter
 import com.example.github_user.databinding.FragmentFollowBinding
 import com.example.github_user.model.User
-import com.example.github_user.viewmodel.FollowersViewModel
-import com.example.github_user.viewmodel.FollowingViewModel
+import com.example.github_user.viewmodel.FollowViewModel
 
 class FollowFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var followersAdapter: FollowersAdapter
-    private lateinit var followingAdapter: FollowingAdapter
-    private lateinit var followersViewModel: FollowersViewModel
-    private lateinit var followingViewModel: FollowingViewModel
+    private lateinit var followAdapter: FollowAdapter
+    private lateinit var followViewModel: FollowViewModel
 
     private var _binding: FragmentFollowBinding? = null
     private val binding get() = _binding!!
@@ -59,48 +55,26 @@ class FollowFragment : Fragment() {
         val index = arguments?.getInt(ARG_SECTION_NUMBER, 0) ?: 1
         showLoading(true)
         when (index) {
-            1 -> setFollowers(username)
-            2 -> setFollowing(username)
+            1 -> setFollow(username, 0)
+            2 -> setFollow(username, 1)
         }
     }
 
-    private fun setFollowers(username: String?) {
-        followersAdapter = FollowersAdapter()
-        recyclerView.adapter = followersAdapter
-        followersViewModel = ViewModelProvider(
+    private fun setFollow(username: String?, option: Int) {
+        followAdapter = FollowAdapter()
+        recyclerView.adapter = followAdapter
+        followViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
-        ).get(FollowersViewModel::class.java)
-        followersViewModel.setUserFollowers(username!!)
-        followersViewModel.getUserFollowers().observe(viewLifecycleOwner, { users ->
+        ).get(FollowViewModel::class.java)
+        followViewModel.setUserFollow(username!!, option)
+        followViewModel.getUserFollow().observe(viewLifecycleOwner, { users ->
             if (users != null) {
-                followersAdapter.setData(users)
+                followAdapter.setData(users)
                 showLoading(false)
             }
         })
-        followersAdapter.setOnItemClickCallback(object :
-            ListUserAdapter.OnItemClickCallback {
-            override fun onItemClicked(user: User) {
-                showSelectedUser(user)
-            }
-        })
-    }
-
-    private fun setFollowing(username: String?) {
-        followingAdapter = FollowingAdapter()
-        recyclerView.adapter = followingAdapter
-        followingViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        ).get(FollowingViewModel::class.java)
-        followingViewModel.setUserFollowing(username!!)
-        followingViewModel.getUserFollowing().observe(viewLifecycleOwner, { users ->
-            if (users != null) {
-                followingAdapter.setData(users)
-                showLoading(false)
-            }
-        })
-        followingAdapter.setOnItemClickCallback(object :
+        followAdapter.setOnItemClickCallback(object :
             ListUserAdapter.OnItemClickCallback {
             override fun onItemClicked(user: User) {
                 showSelectedUser(user)
