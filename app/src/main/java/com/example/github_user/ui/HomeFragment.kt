@@ -7,21 +7,18 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.github_user.BuildConfig
 import com.example.github_user.R
 import com.example.github_user.adapter.ListUserAdapter
 import com.example.github_user.databinding.FragmentHomeBinding
 import com.example.github_user.model.User
-import com.loopj.android.http.AsyncHttpClient
-import com.loopj.android.http.AsyncHttpResponseHandler
-import cz.msebera.android.httpclient.Header
-import org.json.JSONArray
-import org.json.JSONObject
+import com.example.github_user.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
     private lateinit var listUserAdapter: ListUserAdapter
+    private lateinit var homeViewModel: HomeViewModel
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -34,6 +31,11 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        homeViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get(HomeViewModel::class.java)
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -47,11 +49,20 @@ class HomeFragment : Fragment() {
         recyclerView = binding.rvGithub
         recyclerView.setHasFixedSize(true)
 
-        getDataUser()
+        listUserAdapter = ListUserAdapter()
+        listUserAdapter.notifyDataSetChanged()
 
-        listUserAdapter = ListUserAdapter(list)
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.adapter = listUserAdapter
+
+        showLoading(true)
+        homeViewModel.setListUser()
+        homeViewModel.getUsers().observe(viewLifecycleOwner, { listUsers ->
+            if (listUsers != null) {
+                listUserAdapter.setData(listUsers)
+                showLoading(false)
+            }
+        })
 
         listUserAdapter.setOnItemClickCallback(object : ListUserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: User) {
@@ -64,115 +75,32 @@ class HomeFragment : Fragment() {
         Toast.makeText(context, user.username, Toast.LENGTH_SHORT).show()
     }
 
+    private fun showLoading(state: Boolean) {
+        if (state)
+            binding.progressBar.visibility = View.VISIBLE
+        else
+            binding.progressBar.visibility = View.INVISIBLE
+    }
+
     private fun setupSearchListener() {
         val searchView = binding.searchView
 
         searchView.queryHint = resources.getString(R.string.search_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(text: String): Boolean {
-                getDataUserSearch(text)
+            override fun onQueryTextSubmit(query: String): Boolean {
+                showLoading(true)
+                homeViewModel.setListUserSearch(query)
+                homeViewModel.getUsers().observe(viewLifecycleOwner, { listUsers ->
+                    if (listUsers != null) {
+                        listUserAdapter.setData(listUsers)
+                        showLoading(false)
+                    }
+                })
                 return true
             }
 
             override fun onQueryTextChange(text: String): Boolean {
                 return false
-            }
-        })
-    }
-
-    private fun getDataUser() {
-        binding.progressBar.visibility = View.VISIBLE
-        val url = "https://api.github.com/users"
-        val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token ${BuildConfig.API_KEY}")
-        client.addHeader("User-Agent", "request")
-        client.get(url, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?
-            ) {
-                list.clear()
-                binding.progressBar.visibility = View.INVISIBLE
-                val result = String(responseBody!!)
-                try {
-                    val jsonArray = JSONArray(result)
-                    for (i in 0 until jsonArray.length()) {
-                        val jsonObject = jsonArray.getJSONObject(i)
-                        val username = jsonObject.getString("login")
-                        val avatar = jsonObject.getString("avatar_url")
-                        list.add(User(username, avatar))
-                    }
-                    listUserAdapter.notifyDataSetChanged()
-                } catch (e: Exception) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-                    e.printStackTrace()
-                }
-            }
-
-            override fun onFailure(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?,
-                error: Throwable?
-            ) {
-                binding.progressBar.visibility = View.INVISIBLE
-                val errorMessage = when (statusCode) {
-                    401 -> "$statusCode : Bad Request"
-                    403 -> "$statusCode : Forbidden"
-                    404 -> "$statusCode : Not Found"
-                    else -> "$statusCode : ${error?.message}"
-                }
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
-    private fun getDataUserSearch(username: String) {
-        binding.progressBar.visibility = View.VISIBLE
-        val url = "https://api.github.com/search/users?q=$username"
-        val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token ${BuildConfig.API_KEY}")
-        client.addHeader("User-Agent", "request")
-        client.get(url, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?
-            ) {
-                list.clear()
-                binding.progressBar.visibility = View.INVISIBLE
-                val result = String(responseBody!!)
-                try {
-                    val responseObject = JSONObject(result)
-                    val items = responseObject.getJSONArray("items")
-                    for (i in 0 until items.length()) {
-                        val item = items.getJSONObject(i)
-                        val username = item.getString("login")
-                        val avatar = item.getString("avatar_url")
-                        list.add(User(username, avatar))
-                    }
-                    listUserAdapter.notifyDataSetChanged()
-                } catch (e: Exception) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-                    e.printStackTrace()
-                }
-            }
-
-            override fun onFailure(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?,
-                error: Throwable?
-            ) {
-                binding.progressBar.visibility = View.INVISIBLE
-                val errorMessage = when (statusCode) {
-                    401 -> "$statusCode : Bad Request"
-                    403 -> "$statusCode : Forbidden"
-                    404 -> "$statusCode : Not Found"
-                    else -> "$statusCode : ${error?.message}"
-                }
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
             }
         })
     }

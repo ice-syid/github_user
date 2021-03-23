@@ -11,10 +11,16 @@ import com.example.github_user.databinding.ItemUserBinding
 import com.example.github_user.model.User
 import com.example.github_user.ui.HomeFragmentDirections
 
-class ListUserAdapter(var listUser: ArrayList<User>) :
+class ListUserAdapter :
     RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
-
+    private var listUser = ArrayList<User>()
     private var onItemClickCallback: OnItemClickCallback? = null
+
+    fun setData(users: ArrayList<User>) {
+        listUser.clear()
+        listUser.addAll(users)
+        notifyDataSetChanged()
+    }
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
