@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -115,6 +116,7 @@ class DetailFragment : Fragment() {
 
     private fun setupTab() {
         val adapter = SectionsPagerAdapter(requireActivity() as AppCompatActivity)
+        adapter.username = user.username
         val viewPager: ViewPager2 = binding.viewPager
         viewPager.adapter = adapter
         val tabs: TabLayout = binding.tabs

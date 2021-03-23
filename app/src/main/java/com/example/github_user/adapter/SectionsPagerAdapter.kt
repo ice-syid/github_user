@@ -6,9 +6,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.github_user.ui.FollowFragment
 
 class SectionsPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
+    var username: String? = null
+
     override fun getItemCount() = 2
 
     override fun createFragment(position: Int): Fragment {
-        return FollowFragment.newInstance(position + 1)
+        return FollowFragment.newInstance(position + 1, username)
     }
 }

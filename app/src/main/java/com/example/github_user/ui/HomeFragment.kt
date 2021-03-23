@@ -24,7 +24,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var recyclerView: RecyclerView
-    private var list: ArrayList<User> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
