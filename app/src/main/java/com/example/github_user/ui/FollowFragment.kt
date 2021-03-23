@@ -57,6 +57,7 @@ class FollowFragment : Fragment() {
 
         val username = arguments?.getString(ARG_USERNAME)
         val index = arguments?.getInt(ARG_SECTION_NUMBER, 0) ?: 1
+        showLoading(true)
         when (index) {
             1 -> setFollowers(username)
             2 -> setFollowing(username)
@@ -74,6 +75,7 @@ class FollowFragment : Fragment() {
         followersViewModel.getUserFollowers().observe(viewLifecycleOwner, { users ->
             if (users != null) {
                 followersAdapter.setData(users)
+                showLoading(false)
             }
         })
         followersAdapter.setOnItemClickCallback(object :
@@ -82,7 +84,6 @@ class FollowFragment : Fragment() {
                 showSelectedUser(user)
             }
         })
-        showLoading(false)
     }
 
     private fun setFollowing(username: String?) {
@@ -96,6 +97,7 @@ class FollowFragment : Fragment() {
         followingViewModel.getUserFollowing().observe(viewLifecycleOwner, { users ->
             if (users != null) {
                 followingAdapter.setData(users)
+                showLoading(false)
             }
         })
         followingAdapter.setOnItemClickCallback(object :
@@ -104,7 +106,6 @@ class FollowFragment : Fragment() {
                 showSelectedUser(user)
             }
         })
-        showLoading(false)
     }
 
     private fun showSelectedUser(user: User) {

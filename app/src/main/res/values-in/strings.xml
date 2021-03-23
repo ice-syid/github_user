@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">GitHub User</string>
+    <string name="view_profile">Tampilkan Profil</string>
+    <string name="follower">Pengikut</string>
+    <string name="following">Diikuti</string>
+    <string name="repository">Gudang</string>
+    <string name="kotlin">Kotlin</string>
+    <string name="_0">0</string>
+    <string name="pinned">Disematkan</string>
+    <string name="repo">github_user</string>
+    <string name="starred">Berbintang</string>
+    <string name="organizations">Organisasi</string>
+    <string name="repositories">Gudang</string>
+    <string name="share">Bagikan</string>
+    <string name="open_in_browser">Buka di Browser</string>
+    <string name="search_hint">username</string>
+    <string name="change_language_settings">Ubah Pengaturan Bahasa</string>
+</resources>

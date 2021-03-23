@@ -23,4 +23,9 @@
             android:name="user"
             app:argType="com.example.github_user.model.User" />
     </fragment>
+    <fragment
+        android:id="@+id/followFragment"
+        android:name="com.example.github_user.ui.FollowFragment"
+        android:label="fragment_follow"
+        tools:layout="@layout/fragment_follow" />
 </navigation>
