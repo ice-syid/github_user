@@ -21,7 +21,7 @@ class FollowFragment : Fragment() {
     private lateinit var followViewModel: FollowViewModel
 
     private var _binding: FragmentFollowBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding as FragmentFollowBinding
 
     companion object {
         private const val ARG_SECTION_NUMBER = "section_number"
@@ -67,7 +67,7 @@ class FollowFragment : Fragment() {
             this,
             ViewModelProvider.NewInstanceFactory()
         ).get(FollowViewModel::class.java)
-        followViewModel.setUserFollow(username!!, option)
+        username?.let { followViewModel.setUserFollow(it, option) }
         followViewModel.getUserFollow().observe(viewLifecycleOwner, { users ->
             if (users != null) {
                 followAdapter.setData(users)

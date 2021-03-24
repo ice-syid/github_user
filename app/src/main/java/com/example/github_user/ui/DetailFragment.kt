@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -26,7 +25,7 @@ class DetailFragment : Fragment() {
     private lateinit var detailViewModel: DetailViewModel
 
     private var _binding: FragmentDetailBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding as FragmentDetailBinding
 
     private val args: DetailFragmentArgs by navArgs()
 
@@ -43,7 +42,7 @@ class DetailFragment : Fragment() {
         setHasOptionsMenu(true)
 
         user = args.user
-        (activity as AppCompatActivity?)!!.supportActionBar!!.title = user.username
+        (activity as AppCompatActivity?)?.supportActionBar?.title = user.username
     }
 
     override fun onCreateView(
@@ -77,7 +76,7 @@ class DetailFragment : Fragment() {
             R.id.action_share -> {
                 val action = Intent().apply {
                     this.action = Intent.ACTION_SEND
-                    this.putExtra(Intent.EXTRA_TEXT, "${user}")
+                    this.putExtra(Intent.EXTRA_TEXT, "$user")
                     this.type = "text/plain"
                 }
                 startActivity(action)
@@ -86,7 +85,7 @@ class DetailFragment : Fragment() {
             R.id.action_open_browser -> {
                 val action = Intent().apply {
                     this.action = Intent.ACTION_VIEW
-                    this.setData(Uri.parse(url))
+                    this.data = Uri.parse(url)
                 }
                 startActivity(action)
                 return true
@@ -124,7 +123,7 @@ class DetailFragment : Fragment() {
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
 
-        (activity as AppCompatActivity?)!!.supportActionBar!!.elevation = 0f
+        (activity as AppCompatActivity?)?.supportActionBar?.elevation = 0f
     }
 
     private fun showLoading(state: Boolean) {

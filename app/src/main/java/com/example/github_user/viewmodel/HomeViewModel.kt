@@ -28,7 +28,7 @@ class HomeViewModel : ViewModel() {
                 headers: Array<out Header>?,
                 responseBody: ByteArray?
             ) {
-                val result = String(responseBody!!)
+                val result = responseBody?.let { String(it) }
                 try {
                     val jsonArray = JSONArray(result)
                     for (i in 0 until jsonArray.length()) {
@@ -74,7 +74,7 @@ class HomeViewModel : ViewModel() {
                 headers: Array<out Header>?,
                 responseBody: ByteArray?
             ) {
-                val result = String(responseBody!!)
+                val result = responseBody?.let { String(it) }
                 try {
                     val responseObject = JSONObject(result)
                     val items = responseObject.getJSONArray("items")

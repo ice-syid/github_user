@@ -21,7 +21,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
 
     private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding as FragmentHomeBinding
 
     private lateinit var recyclerView: RecyclerView
 

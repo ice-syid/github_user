@@ -29,7 +29,7 @@ class FollowViewModel : ViewModel() {
                 headers: Array<out Header>?,
                 responseBody: ByteArray?
             ) {
-                val result = String(responseBody!!)
+                val result = responseBody?.let { String(it) }
                 try {
                     val responseArray = JSONArray(result)
                     for (i in 0 until responseArray.length()) {
