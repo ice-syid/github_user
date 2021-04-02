@@ -21,4 +21,12 @@ interface ApiRequest {
     @Headers("Authorization: ${BuildConfig.API_KEY}")
     @GET("/users/{username}")
     fun getDetailUser(@Path("username") username: String): Call<UserDetail>
+
+    @Headers("Authorization: ${BuildConfig.API_KEY}")
+    @GET("/users/{username}/followers")
+    fun getFollowersUser(@Path("username") username: String): Call<List<User>>
+
+    @Headers("Authorization: ${BuildConfig.API_KEY}")
+    @GET("/users/{username}/following")
+    fun getFollowingUser(@Path("username") username: String): Call<List<User>>
 }
