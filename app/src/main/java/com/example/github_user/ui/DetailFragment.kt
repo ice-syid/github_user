@@ -108,7 +108,7 @@ class DetailFragment : Fragment() {
         binding.tvDetailName.text = userDetail.name
         binding.tvDetailCompany.text = userDetail.company
         binding.tvDetailLocation.text = userDetail.location
-        binding.tvFollowerValue.text = userDetail.follower.toString()
+        binding.tvFollowerValue.text = userDetail.followers.toString()
         binding.tvFollowingValue.text = userDetail.following.toString()
         binding.tvRepositoryValue.text = userDetail.repository.toString()
     }
