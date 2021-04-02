@@ -96,7 +96,7 @@ class DetailFragment : Fragment() {
 
     private fun setupUserDetail(user: User) {
         showLoading(true)
-        detailViewModel.setUserDetail(user.username)
+        user.username?.let { detailViewModel.setUserDetail(it) }
         detailViewModel.getUserDetail().observe(viewLifecycleOwner, { detailUser ->
             setupView(detailUser)
         })

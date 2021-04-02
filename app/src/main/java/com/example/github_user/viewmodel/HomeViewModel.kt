@@ -1,111 +1,57 @@
 package com.example.github_user.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.github_user.BuildConfig
+import com.example.github_user.ApiRequest
 import com.example.github_user.model.User
-import com.loopj.android.http.AsyncHttpClient
-import com.loopj.android.http.AsyncHttpResponseHandler
-import cz.msebera.android.httpclient.Header
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.awaitResponse
+import retrofit2.converter.gson.GsonConverterFactory
+
+const val BASE_URL = "https://api.github.com"
 
 class HomeViewModel : ViewModel() {
     private val listUsers = MutableLiveData<ArrayList<User>>()
 
     fun setListUser() {
-        val listData = ArrayList<User>()
+        val api = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiRequest::class.java)
 
-        val url = "https://api.github.com/users"
-        val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token ${BuildConfig.API_KEY}")
-        client.addHeader("User-Agent", "request")
-        client.get(url, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?
-            ) {
-                val result = responseBody?.let { String(it) }
-                try {
-                    val jsonArray = JSONArray(result)
-                    for (i in 0 until jsonArray.length()) {
-                        val jsonObject = jsonArray.getJSONObject(i)
-                        val username = jsonObject.getString("login")
-                        val avatar = jsonObject.getString("avatar_url")
-                        listData.add(User(username, avatar))
-                    }
-                    listUsers.postValue(listData)
-                } catch (e: Exception) {
-                    Log.e("onSuccess", e.message.toString())
-                    e.printStackTrace()
-                }
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = api.getUsers().awaitResponse()
+            if (response.isSuccessful) {
+                val data = response.body()
+                listUsers.postValue(data as ArrayList<User>?)
             }
-
-            override fun onFailure(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?,
-                error: Throwable?
-            ) {
-                val errorMessage = when (statusCode) {
-                    401 -> "$statusCode : Bad Request"
-                    403 -> "$statusCode : Forbidden"
-                    404 -> "$statusCode : Not Found"
-                    else -> "$statusCode : ${error?.message}"
-                }
-                Log.e("onFailure", errorMessage)
-            }
-        })
+        }
     }
 
     fun setListUserSearch(username: String) {
-        val listData = ArrayList<User>()
+        val api = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiRequest::class.java)
 
-        val url = "https://api.github.com/search/users?q=$username"
-        val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token ${BuildConfig.API_KEY}")
-        client.addHeader("User-Agent", "request")
-        client.get(url, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?
-            ) {
-                val result = responseBody?.let { String(it) }
-                try {
-                    val responseObject = JSONObject(result)
-                    val items = responseObject.getJSONArray("items")
-                    for (i in 0 until items.length()) {
-                        val item = items.getJSONObject(i)
-                        val username = item.getString("login")
-                        val avatar = item.getString("avatar_url")
-                        listData.add(User(username, avatar))
-                    }
-                    listUsers.postValue(listData)
-                } catch (e: Exception) {
-                    Log.e("onSuccess", e.message.toString())
-                    e.printStackTrace()
+        GlobalScope.launch(Dispatchers.IO) {
+            val listData = ArrayList<User>()
+            val response = api.getSearchUsers(username).awaitResponse()
+            val users = response.body()?.items
+            if (users != null) {
+                for (i in 0 until (users.size)) {
+                    val user = users[i]
+                    listData.add(User(user.username, user.avatar))
                 }
+                listUsers.postValue(listData)
             }
-
-            override fun onFailure(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?,
-                error: Throwable?
-            ) {
-                val errorMessage = when (statusCode) {
-                    401 -> "$statusCode : Bad Request"
-                    403 -> "$statusCode : Forbidden"
-                    404 -> "$statusCode : Not Found"
-                    else -> "$statusCode : ${error?.message}"
-                }
-                Log.e("onFailure", errorMessage)
-            }
-        })
+        }
     }
 
     fun getUsers(): LiveData<ArrayList<User>> = listUsers
