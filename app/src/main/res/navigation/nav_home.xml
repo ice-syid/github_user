@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_homeFragment_to_favoriteFragment"
             app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_myPreferenceFragment"
+            app:destination="@id/myPreferenceFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -35,4 +38,8 @@
             android:id="@+id/action_favoriteFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/myPreferenceFragment"
+        android:name="com.example.github_user.ui.PreferenceFragment"
+        android:label="@string/settings" />
 </navigation>

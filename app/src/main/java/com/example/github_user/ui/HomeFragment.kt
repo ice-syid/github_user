@@ -1,8 +1,6 @@
 package com.example.github_user.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.*
 import android.widget.SearchView
 import android.widget.Toast
@@ -51,9 +49,10 @@ class HomeFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_change_language) {
-            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(intent)
+        if (item.itemId == R.id.action_settings) {
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToMyPreferenceFragment()
+            binding.root.findNavController().navigate(action)
         } else if (item.itemId == R.id.action_user_favorite) {
             val action =
                 HomeFragmentDirections.actionHomeFragmentToFavoriteFragment()

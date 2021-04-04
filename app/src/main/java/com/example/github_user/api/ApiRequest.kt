@@ -1,5 +1,6 @@
-package com.example.github_user
+package com.example.github_user.api
 
+import com.example.github_user.BuildConfig
 import com.example.github_user.model.User
 import com.example.github_user.model.UserDetail
 import com.example.github_user.model.UserSearch

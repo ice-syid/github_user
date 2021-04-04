@@ -1,11 +1,11 @@
-package com.example.github_user
+package com.example.github_user.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import com.example.github_user.ui.MainActivity
+import com.example.github_user.R
 
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

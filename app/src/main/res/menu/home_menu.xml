@@ -8,8 +8,8 @@
         android:title="@string/user_favorite"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_change_language"
-        android:icon="@drawable/ic_translate"
-        android:title="@string/change_language_settings"
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings"
         app:showAsAction="ifRoom" />
 </menu>

@@ -3,7 +3,7 @@ package com.example.github_user.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.github_user.ApiRequest
+import com.example.github_user.api.ApiRequest
 import com.example.github_user.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

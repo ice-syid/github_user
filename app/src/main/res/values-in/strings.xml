@@ -16,4 +16,12 @@
     <string name="search_hint">username</string>
     <string name="change_language_settings">Ubah Pengaturan Bahasa</string>
     <string name="user_favorite">User Favorite</string>
+    <string name="key_reminder">reminder</string>
+    <string name="off_reminder">Pengingat harian telah dimatikan</string>
+    <string name="on_reminder">Pengingat harian telah dihidupkan</string>
+    <string name="title_reminder">Pengingat jam 9.00 AM</string>
+    <string name="key_language">bahasa</string>
+    <string name="title_language">Bahasa</string>
+    <string name="settings">Pengaturan</string>
+    <string name="notification_message">Buka Github User Sekarang!</string>
 </resources>
