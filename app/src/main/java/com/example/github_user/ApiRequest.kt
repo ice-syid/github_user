@@ -10,23 +10,23 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiRequest {
-    @Headers("Authorization: ${BuildConfig.API_KEY}")
     @GET("/users")
+    @Headers("Authorization: token ${BuildConfig.API_KEY}")
     fun getUsers(): Call<List<User>>
 
-    @Headers("Authorization: ${BuildConfig.API_KEY}")
     @GET("/search/users")
+    @Headers("Authorization: token ${BuildConfig.API_KEY}")
     fun getSearchUsers(@Query("q") q: String): Call<UserSearch>
 
-    @Headers("Authorization: ${BuildConfig.API_KEY}")
     @GET("/users/{username}")
+    @Headers("Authorization: token ${BuildConfig.API_KEY}")
     fun getDetailUser(@Path("username") username: String): Call<UserDetail>
 
-    @Headers("Authorization: ${BuildConfig.API_KEY}")
     @GET("/users/{username}/followers")
+    @Headers("Authorization: token ${BuildConfig.API_KEY}")
     fun getFollowersUser(@Path("username") username: String): Call<List<User>>
 
-    @Headers("Authorization: ${BuildConfig.API_KEY}")
     @GET("/users/{username}/following")
+    @Headers("Authorization: token ${BuildConfig.API_KEY}")
     fun getFollowingUser(@Path("username") username: String): Call<List<User>>
 }

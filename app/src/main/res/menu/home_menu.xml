@@ -3,8 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_user_favorite"
+        android:icon="@drawable/ic_favorite_on"
+        android:title="@string/user_favorite"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_change_language"
         android:icon="@drawable/ic_translate"
         android:title="@string/change_language_settings"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

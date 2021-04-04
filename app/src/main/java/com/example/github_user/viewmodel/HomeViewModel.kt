@@ -47,7 +47,7 @@ class HomeViewModel : ViewModel() {
             if (users != null) {
                 for (i in 0 until (users.size)) {
                     val user = users[i]
-                    listData.add(User(user.username, user.avatar))
+                    listData.add(User(user.id, user.username, user.avatar))
                 }
                 listUsers.postValue(listData)
             }

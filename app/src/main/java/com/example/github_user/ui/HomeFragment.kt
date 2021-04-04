@@ -8,6 +8,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.github_user.R
@@ -53,6 +54,10 @@ class HomeFragment : Fragment() {
         if (item.itemId == R.id.action_change_language) {
             val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
             startActivity(intent)
+        } else if (item.itemId == R.id.action_user_favorite) {
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToFavoriteFragment()
+            binding.root.findNavController().navigate(action)
         }
         return super.onOptionsItemSelected(item)
     }

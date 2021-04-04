@@ -3,10 +3,13 @@ package com.example.github_user.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
@@ -17,13 +20,16 @@ import com.example.github_user.databinding.FragmentDetailBinding
 import com.example.github_user.model.User
 import com.example.github_user.model.UserDetail
 import com.example.github_user.viewmodel.DetailViewModel
+import com.example.github_user.viewmodel.UserViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailFragment : Fragment() {
     private lateinit var user: User
     private lateinit var detailViewModel: DetailViewModel
+    private lateinit var userViewModel: UserViewModel
 
+    private var isFavorite: Boolean = false
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding as FragmentDetailBinding
 
@@ -55,6 +61,10 @@ class DetailFragment : Fragment() {
             ViewModelProvider.NewInstanceFactory()
         ).get(DetailViewModel::class.java)
 
+        userViewModel = ViewModelProvider(
+            this
+        ).get(UserViewModel::class.java)
+
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -62,6 +72,15 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupUserDetail(user)
         setupTab()
+        setupFavorite()
+
+        binding.isFavorite.setOnClickListener {
+            if (isFavorite) {
+                deleteData()
+            } else {
+                insertData()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -131,5 +150,50 @@ class DetailFragment : Fragment() {
             binding.progressBarDetail.visibility = View.VISIBLE
         else
             binding.progressBarDetail.visibility = View.INVISIBLE
+    }
+
+    private fun setupFavorite() {
+        userViewModel.readAllData.observe(viewLifecycleOwner, { userFav ->
+            for (item in userFav) {
+                Log.d("syid", item.username.toString() + "|" + user.username)
+                if (item.username.equals(user.username))
+                    isFavorite = true
+                favoriteState(isFavorite)
+            }
+        })
+    }
+
+    private fun favoriteState(state: Boolean) {
+        context?.let { it ->
+            if (state)
+                binding.isFavorite.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        it,
+                        R.drawable.ic_favorite_on
+                    )
+                )
+            else {
+                binding.isFavorite.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        it,
+                        R.drawable.ic_favorite_off
+                    )
+                )
+            }
+        }
+    }
+
+    private fun insertData() {
+        Log.d("syid", "insert")
+        isFavorite = !isFavorite
+        userViewModel.addUser(User(user.id, user.username, user.avatar))
+        favoriteState(isFavorite)
+    }
+
+    private fun deleteData() {
+        Log.d("syid", "delete")
+        isFavorite = !isFavorite
+        userViewModel.deleteUser(user)
+        favoriteState(isFavorite)
     }
 }

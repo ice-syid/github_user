@@ -15,4 +15,5 @@
     <string name="open_in_browser">Buka di Browser</string>
     <string name="search_hint">username</string>
     <string name="change_language_settings">Ubah Pengaturan Bahasa</string>
+    <string name="user_favorite">User Favorite</string>
 </resources>
