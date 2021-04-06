@@ -18,4 +18,7 @@ interface UserDao {
 
     @Query("SELECT * FROM user_favorite ORDER BY id ASC")
     fun readAllDataCursor(): Cursor
+
+    @Query("SELECT * FROM user_favorite")
+    fun getUserFavoriteWidget(): List<User>
 }

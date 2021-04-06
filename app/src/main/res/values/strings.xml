@@ -24,4 +24,7 @@
     <string name="title_language">Language</string>
     <string name="settings">Settings</string>
     <string name="notification_message">Open Github User Now!</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_text">NO DATA</string>
 </resources>
