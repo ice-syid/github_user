@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.github_user.data.LocalDataSource
 import com.example.github_user.data.UserDatabase
 import com.example.github_user.data.UserRepository
 import com.example.github_user.model.User
@@ -16,8 +17,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: UserRepository
 
     init {
-        val userDao = UserDatabase.getDatabase(application).userDao()
-        repository = UserRepository(userDao)
+        val database = UserDatabase.getDatabase(application)
+        val localDataSource = LocalDataSource.getInstance(database.userDao())
+
+        repository = UserRepository(localDataSource)
         readAllData = repository.readAllData
     }
 

@@ -1,5 +1,6 @@
 package com.example.github_user.data
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.github_user.model.User
@@ -14,4 +15,7 @@ interface UserDao {
 
     @Query("SELECT * FROM user_favorite ORDER BY id ASC")
     fun readAllData(): LiveData<List<User>>
+
+    @Query("SELECT * FROM user_favorite ORDER BY id ASC")
+    fun readAllDataCursor(): Cursor
 }
