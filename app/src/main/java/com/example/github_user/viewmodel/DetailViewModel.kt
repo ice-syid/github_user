@@ -1,12 +1,13 @@
 package com.example.github_user.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.github_user.api.ApiRequest
 import com.example.github_user.model.UserDetail
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.awaitResponse
@@ -22,11 +23,13 @@ class DetailViewModel : ViewModel() {
             .build()
             .create(ApiRequest::class.java)
 
-        GlobalScope.launch(Dispatchers.IO) {
+        MainScope().launch(Dispatchers.IO) {
             val response = api.getDetailUser(username).awaitResponse()
             if (response.isSuccessful) {
                 val data = response.body()
                 userDetail.postValue(data)
+            } else {
+                Log.d("DetailViewModel", "setUserDetail")
             }
         }
     }

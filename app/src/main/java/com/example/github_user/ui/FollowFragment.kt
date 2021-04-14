@@ -77,13 +77,9 @@ class FollowFragment : Fragment() {
         followAdapter.setOnItemClickCallback(object :
             ListUserAdapter.OnItemClickCallback {
             override fun onItemClicked(user: User) {
-                showSelectedUser(user)
+                Toast.makeText(context, user.username, Toast.LENGTH_SHORT).show()
             }
         })
-    }
-
-    private fun showSelectedUser(user: User) {
-        Toast.makeText(context, user.username, Toast.LENGTH_SHORT).show()
     }
 
     private fun showLoading(state: Boolean) {

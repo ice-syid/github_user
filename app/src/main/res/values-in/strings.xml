@@ -18,4 +18,5 @@
     <string name="notification_message">Buka Github User Sekarang!</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="empty_text">NO DATA</string>
+    <string name="avatar">avatar</string>
 </resources>

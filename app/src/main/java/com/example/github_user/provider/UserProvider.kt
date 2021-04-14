@@ -14,8 +14,8 @@ class UserProvider : ContentProvider() {
     private lateinit var userRepository: UserRepository
 
     companion object {
-        const val AUTHORITY = "com.example.github_user"
-        const val TABLE_NAME = "user_favorite"
+        private const val AUTHORITY = "com.example.github_user"
+        private const val TABLE_NAME = "user_favorite"
         private const val USER = 1
         private val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
 
